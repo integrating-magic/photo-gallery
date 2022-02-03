@@ -1,9 +1,13 @@
-//Here we're importing items we'll need. You can add other imports here.
-
-//The first function. Remove this.
-const btn = document.querySelector("button");
-btn.onclick = function () {
-  alert("You ran some JavaScript");
+window.loadGallery = (obj) => {
+  const o = JSON.parse(obj);
+  const images = o.data;
+  console.log(images);
+  //   return;
+  const items = images.map((image) => {
+    const o = {};
+    o.src = "data:image/png;base64," + image.fieldData.b64;
+    o.w = image.fieldData.width;
+    o.h = image.fieldData.height;
+    return o;
+  });
 };
-
-//
