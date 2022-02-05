@@ -24,8 +24,11 @@ const genertateImages = (url, thumb, caption) => {
   // const width = dimensions.width;
   // const height = dimensions.height;
   // return;
-  const a = ` <a href="${url}">
-<img alt="${caption}" src="${thumb}">
+  const a = ` <a href="${url}" data-sub-html=".caption">
+<img alt="${caption}" src="${thumb}" /> <div class="caption" style="display:none">
+<h4>Caption1</h4>
+<p>Desc1</p>
+</div>
 </a>
 `;
 
@@ -73,5 +76,8 @@ window.loadGallery = () => {
     licenseKey: "your_license_key",
     speed: 500,
     download: false,
+    allowMediaOverlap: true,
+    toggleThumb: true,
+    subHtmlSelectorRelative: true,
   });
 };
