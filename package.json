@@ -16,5 +16,9 @@
   "devDependencies": {
     "open": "^8.2.1",
     "parcel": "^2.2.0"
+  },
+  "dependencies": {
+    "jquery": "^3.6.0",
+    "lightgallery": "^2.3.0"
   }
 }
