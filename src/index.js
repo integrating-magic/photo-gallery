@@ -34,9 +34,8 @@ async function getMeta(url) {
   // console.log(`width: ${img.width}, height: ${img.height}`);
   return img;
 }
-const genertateImages = (url, thumb, createdBy, note, id, dim) => {
-  console.log("GEN", dim);
-  const a = ` <a  id = ${id} data-src=${url}  data-lg-size="1600-2400" data-sub-html=".caption" class="gallery-item">
+const genertateImages = (url, thumb, createdBy, note, id) => {
+  const a = ` <a  id = ${id}  data-sub-html=".caption" class="gallery-item">
 <img alt="${createdBy}  - ${note}" src="${url}" /> <div class="caption" style="display:none">
 
 </div>
@@ -55,11 +54,12 @@ const defaultConfig = {
 };
 window.loadGallery = (fmObj) => {
   const o = JSON.parse(fmObj);
-  const fmData = o.data;
+  console.log(o);
+  const fmData = o.fmData;
   const config = o.config || defaultConfig;
   // console.log(fmData);
   // const obj = JSON.parse(fmData);
-  const obj = data;
+  const obj = fmData;
   const images = obj.data;
   // console.log(images);
   const gallery = document.getElementById("lightgallery");
@@ -67,38 +67,35 @@ window.loadGallery = (fmObj) => {
   const newImages = images.slice(0, 100);
   newImages.forEach(async (image) => {
     const url = image.fieldData.ArchiveURL;
-    const img = new Image();
-    img.src = url;
-    // await img.decode();
-    const dim = { width: 960, height: 1280 };
+
     const thumb = image.fieldData.ArchiveURL_thumb;
     const id = image.fieldData.zzid;
-    const createdBy = "Image taken by: " + image.fieldData.zzCreatedByDisplay;
+    const createdBy =
+      image.fieldData.zzCreatedBy + " " + image.fieldData.zzCreatedDate;
     const note = image.fieldData.Note || "No note";
-    const a = genertateImages(url, thumb, createdBy, note, id, dim);
+    const a = genertateImages(url, thumb, createdBy, note, id);
 
     gallery.insertAdjacentHTML("beforeend", a);
   });
 
-  $("#lightgallery")
-    .justifiedGallery({
-      captions: config.captions,
-      lastRow: config.lastRow,
-      rowHeight: config.rowHeight,
-      margins: config.margins,
-      randomize: config.randomize,
-    })
-    .on("jg.complete", function () {
-      window.lightGallery(document.getElementById("lightgallery"), {
-        plugins: [lgZoom, lgThumbnail],
-        // mobileSettings: {
-        //   controls: false,
-        //   showCloseIcon: false,
-        //   download: false,
-        //   rotate: false,
-        // },
-      });
-    });
+  $("#lightgallery").justifiedGallery({
+    captions: config.captions,
+    lastRow: config.lastRow,
+    rowHeight: config.rowHeight,
+    margins: config.margins,
+    randomize: config.randomize,
+  });
+  // .on("jg.complete", function () {
+  //   window.lightGallery(document.getElementById("lightgallery"), {
+  //     plugins: [lgZoom, lgThumbnail],
+  //     // mobileSettings: {
+  //     //   controls: false,
+  //     //   showCloseIcon: false,
+  //     //   download: false,
+  //     //   rotate: false,
+  //     // },
+  //   });
+  // });
 
   $(".gallery-item").on("click", function (e) {
     const id = e.currentTarget.id;
